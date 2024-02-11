@@ -17,7 +17,6 @@ jobs:
           # Variables
           ImageURI='https://boonk8812.github.io/actionsimages/ducky@v1.img'
           Outfile='ducky@v1.img'
-          Cache='https://boonk8812.github.io/actionsimages/cache@ducky.bin'
           Image=${Outfile}
 
           # Generate random hex strings as substitutes for New-Guid
