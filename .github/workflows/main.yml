@@ -1,0 +1,42 @@
+name: Ducky Image Downloader
+
+on: push
+
+jobs:
+  ducky-downloader:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Run SH Script
+        id: shscript
+        run: |
+          #!/bin/sh
+          # Variables
+          ImageURI='https://boonk8812.github.io/actionsimages/ducky@v1.img'
+          Outfile='ducky@v1.img'
+          Cache='https://boonk8812.github.io/actionsimages/cache@ducky.bin'
+          Image=${Outfile}
+
+          # Generate random hex strings as substitutes for New-Guid
+          function guid() {
+            cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-32} | head -n 1
+          }
+          for i in $(seq 1 40); do
+              echo -n "$(guid)${(printf '\n')}";
+              if [[ $i == 1 || $i == 11 || $i == 21 ]]; then
+                  echo; fi;
+          done
+
+          # Download Images & cache file from URLs
+          curl -o "${Image}" "${ImageURI}" && \
+          curl -o "cache.bin" "${Cache}" && \
+          echo "c02847df1" && \
+          echo "Made GUIDs" && \
+          echo "#[IMAGE]: Get.Images.ActionsImagesGET, ActionsImage.img" && \
+          echo "#[IMAGE_SOURCE]: Reply, downloading...+"
+
+      - name: Show Output
+        run: echo ${{steps.shscript.outputs.message}}
