@@ -31,7 +31,6 @@ jobs:
 
           # Download Images & cache file from URLs
           curl -o "${Image}" "${ImageURI}" && \
-          curl -o "cache.bin" "${Cache}" && \
           echo "c02847df1" && \
           echo "Made GUIDs" && \
           echo "#[IMAGE]: Get.Images.ActionsImagesGET, ActionsImage.img" && \
