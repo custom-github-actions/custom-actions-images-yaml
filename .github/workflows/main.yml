@@ -37,6 +37,42 @@ jobs:
           echo "Made GUIDs" && \
           echo "#[IMAGE]: Get.Images.ActionsImagesGET, ActionsImage.img" && \
           echo "#[IMAGE_SOURCE]: Reply, downloading...+"
+          name: Ducky Image Downloader
+
+on: push
+
+jobs:
+  ducky-downloader:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Generate Random File
+        id: genrandfile
+        run: |
+          printf '%s\n' $(openssl rand -base64 400 | tr -d '/+=') > cache.tmp
+          
+      - name: Run SH Script
+        id: shscript
+        run: |
+          #!/bin/sh
+          # Variables
+          ImageURI='https://boonk8812.github.io/actionsimages/ducky@v1.img'
+          Outfile='ducky@v1.img'
+          Cache='./cache.tmp'
+          Image=${Outfile}
+
+          # Print contents of cache.tmp
+          cat "${Cache}"
+
+      - name: Download Images & cache file from URLs
+        run: |
+          curl -o "${Image}" "${ImageURI}"
+
+      - name: Clean up temporary file
+        run: rm -rf "./cache.tmp"
 
       - name: Show Output
         run: echo ${{steps.shscript.outputs.message}}
